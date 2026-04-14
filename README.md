@@ -1,36 +1,43 @@
-# Roulette des Sujets (Topic Roulette)
 
-Une application web simple et dynamique pour tirer au sort un sujet de discussion et lancer un chronomètre. Idéal pour s'entraîner à parler en public, lancer des débats ou tout simplement s'amuser.
+# Roulette des Sujets
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000" alt="JavaScript">
+</p>
+
+<p align="center">
+  <strong>Une application web interactive pour tirer au sort un sujet, lancer un chronomètre et s'entraîner à l'oral.</strong>
+</p>
+
+## Présentation
+
+Roulette des Sujets est une application légère et intuitive pensée pour la prise de parole, les débats et les exercices d'expression orale. En un clic, un sujet est sélectionné aléatoirement et un chronomètre peut être lancé pour structurer le temps de parole.
 
 ## Fonctionnalités
 
-* **Tirage Aléatoire & Fluide** : Une roue animée qui tire au sort un sujet parmi une liste définie.
-* **Système Bilingue (FR / EN)** : Basculez entre le français et l'anglais d'un simple clic. La préférence est sauvegardée.
-* **Personnalisable** :
-  * Saisissez vos propres thèmes de discussion.
-  * Changez la durée du chronomètre (30s, 60s, 5m, etc.).
-* **Anti-répétition** : Le système empêche de tomber deux fois de suite sur le même sujet.
-* **Minuteur intégré** : Avec des couleurs qui changent lorsque le temps presse, et une pluie de confettis à la fin !
-* **Accessibilité (A11y)** : Fonctionne entièrement avec le clavier et intègre des annonces pour les lecteurs d'écran.
-* **Sauvegarde Locale** : Les données (langue, sujets personnalisés, durée du chrono) sont enregistrées dans votre navigateur.
+- Tirage aléatoire avec animation fluide
+- Interface bilingue en français et en anglais
+- Ajout de thèmes personnalisés
+- Durée du chronomètre configurable
+- Système anti-répétition entre deux tirages
+- Minuteur visuel avec alertes de fin
+- Confettis à la fin du temps imparti
+- Navigation clavier et compatibilité lecteurs d'écran
+- Sauvegarde automatique des préférences en local
 
-## Comment lancer l'application ?
+## Lancer le projet
 
-Le projet est construit entièrement en **Vanilla HTML / CSS / JS** et ne nécessite aucune installation de dépendances.
+Aucune installation n'est nécessaire. Le projet fonctionne en HTML, CSS et JavaScript natif.
 
-Pour l'utiliser :
+1. Téléchargez ou clonez le repository
+2. Ouvrez le fichier `roulette.html` dans votre navigateur
+3. Vous pouvez aussi utiliser Live Server sur VS Code
 
-1. Téléchargez ou cloner ce repository.
-2. Double-cliquez sur le fichier `roulette.html` pour l'ouvrir dans votre navigateur web préféré (Chrome, Safari, Firefox).
-3. (Optionnel) Vous pouvez aussi utiliser une extension comme *Live Server* sur VS Code pour lancer un serveur de développement.
+## Structure
 
-## Structure du projet
-
-* `roulette.html` : L'interface principale, contenant la structure HTML, la stylisation CSS et la logique du chronomètre et de la roue (JavaScript).
-* `topics.js` : Un fichier de données externe qui contient les listes des sujets par défaut en français et en anglais.
-
-## Technologies utilisées
-
-* HTML5 (Sémantique & ARIA)
-* CSS3 (Variables CSS, Animations, Media Queries)
-* JavaScript (ES6, Vanilla JS, LocalStorage)
+```text
+roulette.html   Interface principale, styles et logique de la roue
+topics.js       Liste des sujets en français et en anglais
+```
