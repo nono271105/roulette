@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlTag">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette des Sujets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0d0d0f;
+            --surface: #16161a;
+            --border: #2a2a35;
+            --accent: #f5c842;
+            --accent2: #ff6b35;
+            --text: #f0ede8;
+            --muted: #666;
+            --green: #4ade80;
+            --red: #f87171;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100%;
+            padding: 2.5rem 1rem 4rem;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(245, 200, 66, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 200, 66, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: -40%;
+            left: -20%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(ellipse, rgba(245, 200, 66, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* A11y classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.8rem;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .icon-btn:hover, .icon-btn:focus-visible {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.2s ease both;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 2rem;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--red);
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: #0d0d0f;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.6rem;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 4.2rem);
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(245, 200, 66, 0.3);
+        }
+
+        header p {
+            color: var(--muted);
+            font-size: 0.82rem;
+            margin-top: 0.3rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── DRUM ── */
+        .drum-wrap {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 224px;
+        }
+
+        .drum-fade-top,
+        .drum-fade-bot {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 72px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .drum-fade-top {
+            top: 0;
+            background: linear-gradient(to bottom, var(--surface), transparent);
+        }
+
+        .drum-fade-bot {
+            bottom: 0;
+            background: linear-gradient(to top, var(--surface), transparent);
+        }
+
+        .drum-highlight {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            height: 56px;
+            border-top: 1px solid var(--accent);
+            border-bottom: 1px solid var(--accent);
+            background: rgba(245, 200, 66, 0.07);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .drum-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            will-change: transform;
+        }
+
+        .drum-item {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--muted);
+            width: 100%;
+            text-align: center;
+            padding: 0 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .drum-item.active {
+            color: var(--accent);
+            font-size: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        /* SPIN BUTTON */
+        .btn-spin {
+            width: 100%;
+            padding: 0.95rem 2rem;
+            background: var(--accent);
+            color: #0d0d0f;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.75rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(245, 200, 66, 0.25);
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .btn-spin:active {
+            transform: scale(0.98);
+        }
+
+        .btn-spin:disabled {
+            background: #2a2a35;
+            color: var(--muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* RESULT CARD */
+        .result-card {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.4rem 1.6rem;
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .result-card.visible {
+            display: flex;
+            animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .result-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .result-topic {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            color: var(--accent);
+            line-height: 1.1;
+            text-shadow: 0 0 20px rgba(245, 200, 66, 0.2);
+            word-wrap: break-word;
+        }
+
+        /* TIMER */
+        .timer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .timer-display {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.4rem;
+            letter-spacing: 0.08em;
+            color: var(--text);
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .timer-display.urgent {
+            color: var(--red);
+            text-shadow: 0 0 20px rgba(248, 113, 113, 0.35);
+        }
+
+        .timer-display.done {
+            color: var(--green);
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.35);
+        }
+
+        .timer-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: var(--accent);
+            border-radius: 99px;
+            transition: width 0.25s linear, background 0.3s;
+        }
+
+        .timer-bar.urgent {
+            background: var(--red);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .btn-timer {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            min-height: 48px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            transition: all 0.2s;
+        }
+
+        .btn-timer:active {
+            opacity: 0.75;
+        }
+        
+        .btn-timer:hover, .btn-timer:focus-visible {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .btn-timer.primary {
+            background: var(--accent2);
+            border-color: var(--accent2);
+            color: #fff;
+        }
+        
+        .btn-timer.primary:hover, .btn-timer.primary:focus-visible {
+            background: #e55b25;
+        }
+
+        .done-msg {
+            font-size: 0.95rem;
+            color: var(--green);
+            font-weight: 600;
+            display: none;
+        }
+
+        .done-msg.visible {
+            display: block;
+            animation: fadeIn 0.4s ease both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 200;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <button class="icon-btn" id="btnLang" aria-label="Changer de langue">EN</button>
+        <button class="icon-btn" id="btnSettings" aria-label="Paramètres" data-i18n="settings_btn">⚙️</button>
+    </div>
+
+    <!-- Modale Paramètres -->
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal" role="document">
+            <button class="modal-close" id="btnCloseSettings" aria-label="Fermer les paramètres">&times;</button>
+            <h2 id="modalTitle" data-i18n="settings">Paramètres</h2>
+            
+            <div class="form-group">
+                <label for="timerInput" id="labelTimer" data-i18n="timer_duration">Durée du minuteur (secondes)</label>
+                <input type="number" id="timerInput" value="60" min="10" max="3600">
+            </div>
+            
+            <div class="form-group">
+                <label for="topicsInput" id="labelTopics" data-i18n="custom_topics">Tes sujets (un par ligne, vide pour par défaut)</label>
+                <textarea id="topicsInput" placeholder="Ex:\nSujet 1\nSujet 2"></textarea>
+            </div>
+            
+            <button class="btn-save" id="btnSaveSettings" data-i18n="save">Sauvegarder</button>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <main class="wrapper">
+        <header>
+            <h1 data-i18n="title">Roulette</h1>
+            <p id="elSubtitle" data-i18n="subtitle">Tire un sujet & parle pendant {0} minute(s)</p>
+        </header>
+
+        <div class="drum-wrap" id="drumWrap" aria-hidden="true">
+            <div class="drum-fade-top"></div>
+            <div class="drum-highlight"></div>
+            <div class="drum-fade-bot"></div>
+            <div class="drum-track" id="drumTrack"></div>
+        </div>
+
+        <button class="btn-spin" id="btnSpin" aria-label="Tourner la roue" data-i18n="spin">🎲  TOURNER</button>
+
+        <!-- SR Only zone pour les lecteurs d'écran (Annonces) -->
+        <div id="a11y-announcer" class="sr-only" aria-live="assertive"></div>
+
+        <section class="result-card" id="resultCard" aria-labelledby="resultLabel">
+            <div>
+                <h2 class="result-label" id="resultLabel" data-i18n="your_topic">Ton sujet</h2>
+                <div class="result-topic" id="resultTopic">—</div>
+            </div>
+            <div class="timer-section">
+                <div class="timer-display" id="timerDisplay" aria-hidden="true">1:00</div>
+                <!-- Progress bar for visual -->
+                <div class="timer-bar-bg" aria-hidden="true">
+                    <div class="timer-bar" id="timerBar"></div>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn-timer primary" id="btnStart" data-i18n="btn_start">&#9654; Démarrer</button>
+                    <button class="btn-timer" id="btnReset" data-i18n="btn_reset">&#8635; Reset</button>
+                </div>
+                <!-- SR only zone during timer end if visual done-msg doesn't assert -->
+                <div class="done-msg" id="doneMsg" data-i18n="done_msg" role="status">&#9203; Temps écoulé ! Bravo !</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Inclusion du dictionnaire des sujets externes -->
+    <script src="topics.js"></script>
+    <script>
+        const I18N = {
+            fr: {
+                title: "Roulette",
+                subtitle: "Tire un sujet & parle pendant {0} minute(s)",
+                spin: "🎲 TOURNER",
+                your_topic: "Ton sujet",
+                btn_start: "▶ Démarrer",
+                btn_pause: "⏸ Pause",
+                btn_resume: "▶ Reprendre",
+                btn_reset: "↻ Reset",
+                done_msg: "⏳ Temps écoulé ! Bravo !",
+                settings: "Paramètres",
+                timer_duration: "Durée du minuteur (secondes)",
+                custom_topics: "Tes sujets (un par ligne, vide pour par défaut)",
+                save: "Sauvegarder",
+                lang_toggle: "EN",
+                a11y_drawn: "Ton sujet est : ",
+                a11y_spin: "Rotation de la roulette en cours...",
+                settings_btn: "⚙️"
+            },
+            en: {
+                title: "Roulette",
+                subtitle: "Draw a topic & speak for {0} minute(s)",
+                spin: "🎲 SPIN",
+                your_topic: "Your topic",
+                btn_start: "▶ Start",
+                btn_pause: "⏸ Pause",
+                btn_resume: "▶ Resume",
+                btn_reset: "↻ Reset",
+                done_msg: "⏳ Time's up! Well done!",
+                settings: "Settings",
+                timer_duration: "Timer duration (seconds)",
+                custom_topics: "Your topics (one per line, empty for default)",
+                save: "Save",
+                lang_toggle: "FR",
+                a11y_drawn: "Your topic is: ",
+                a11y_spin: "Roulette is spinning...",
+                settings_btn: "⚙️"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'fr';
+        let timerDuration = parseInt(localStorage.getItem('timer_duration')) || 60;
+        
+        let TOPICS = [];
+        let drawnHistory = []; // Prevent immediate repeats
+
+        const htmlTag = document.getElementById('htmlTag');
+        const btnLang = document.getElementById('btnLang');
+        const elSubtitle = document.getElementById('elSubtitle');
+        const announcer = document.getElementById('a11y-announcer');
+
+        /* ── I18N & LOAD ── */
+        function loadTopics() {
+            const customRaw = localStorage.getItem('custom_topics_' + currentLang);
+            if (customRaw && customRaw.trim() !== '') {
+                TOPICS = customRaw.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+            } else {
+                // Fallback on topics.js
+                TOPICS = window.ROULETTE_DATA[currentLang] || window.ROULETTE_DATA['fr'];
+            }
+            if (!TOPICS || TOPICS.length === 0) TOPICS = ["Sujet par défaut / Default Topic"];
+            
+            // Rebuild drum if loaded
+            buildDrum();
+            setY(yForGlobal(0));
+            highlightGlobal(0);
+        }
+
+        function updateUI() {
+            htmlTag.lang = currentLang;
+            const t = I18N[currentLang];
+            
+            // Text contents
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    if(key === 'subtitle') {
+                        // Math.ceil or keep precision
+                        const mins = Math.max(1, Math.round(timerDuration / 60));
+                        el.textContent = t[key].replace('{0}', mins);
+                    } else if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        // ignore inputs except if placeholders needed
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+
+            // Special cases
+            btnLang.textContent = currentLang === 'fr' ? I18N.fr.lang_toggle : I18N.en.lang_toggle;
+            btnLang.setAttribute('aria-label', currentLang === 'fr' ? 'Switch to English' : 'Passer en Français');
+            document.getElementById('btnCloseSettings').setAttribute('aria-label', currentLang === 'fr' ? 'Fermer les paramètres' : 'Close settings');
+            document.getElementById('btnSpin').setAttribute('aria-label', currentLang === 'fr' ? 'Tourner la roue' : 'Spin the wheel');
+            
+            // Update btn start text depending on running state
+            if (!running && remaining > 0 && remaining < timerDuration) {
+                document.getElementById('btnStart').textContent = t.btn_resume;
+            } else if (running) {
+                document.getElementById('btnStart').textContent = t.btn_pause;
+            } else {
+                document.getElementById('btnStart').textContent = t.btn_start;
+            }
+
+            // Sync Settings values
+            document.getElementById('timerInput').value = timerDuration;
+            const customRaw = localStorage.getItem('custom_topics_' + currentLang);
+            document.getElementById('topicsInput').value = customRaw ? customRaw : '';
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', currentLang);
+            loadTopics();
+            updateUI();
+        }
+
+        btnLang.addEventListener('click', () => {
+            setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+        });
+
+        /* ── SETTINGS MODAL ── */
+        const modalOverlay = document.getElementById('modalOverlay');
+        const btnSettings = document.getElementById('btnSettings');
+        const btnCloseSettings = document.getElementById('btnCloseSettings');
+        const btnSaveSettings = document.getElementById('btnSaveSettings');
+        
+        let previousFocus = null;
+
+        function openModal() {
+            previousFocus = document.activeElement;
+            modalOverlay.classList.add('active');
+            modalOverlay.setAttribute('aria-hidden', 'false');
+            document.getElementById('timerInput').focus();
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            modalOverlay.setAttribute('aria-hidden', 'true');
+            if(previousFocus) previousFocus.focus();
+        }
+
+        btnSettings.addEventListener('click', openModal);
+        btnCloseSettings.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if(e.target === modalOverlay) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        btnSaveSettings.addEventListener('click', () => {
+            const rawTopics = document.getElementById('topicsInput').value;
+            const newTimer = parseInt(document.getElementById('timerInput').value) || 60;
+            
+            localStorage.setItem('custom_topics_' + currentLang, rawTopics);
+            localStorage.setItem('timer_duration', newTimer <= 0 ? 60 : newTimer);
+            
+            timerDuration = newTimer <= 0 ? 60 : newTimer;
+            resetTimer(); // Apply new timer visually
+            
+            loadTopics();
+            updateUI();
+            closeModal();
+        });
+
+
+        /* ── BUILD INFINITE DRUM ── */
+        const REPS = 6;
+        const ITEM_H = 56;
+        const WRAP_H = 224;
+        const CENTER_PX = WRAP_H / 2 - ITEM_H / 2; // = 84
+
+        const drumTrack = document.getElementById('drumTrack');
+
+        function buildDrum() {
+            drumTrack.innerHTML = '';
+            for (let r = 0; r < REPS; r++) {
+                TOPICS.forEach((t, i) => {
+                    const el = document.createElement('div');
+                    el.className = 'drum-item';
+                    el.dataset.rep = r;
+                    el.dataset.idx = i;
+                    el.textContent = t;
+                    drumTrack.appendChild(el);
+                });
+            }
+        }
+
+        // translateY so that global item g sits at the centre line
+        function yForGlobal(g) { return CENTER_PX - g * ITEM_H; }
+
+        function setY(y) {
+            drumTrack.style.transition = 'none';
+            drumTrack.style.transform = 'translateY(' + y + 'px)';
+        }
+
+        function highlightGlobal(g) {
+            const target = ((g % TOPICS.length) + TOPICS.length) % TOPICS.length;
+            drumTrack.querySelectorAll('.drum-item').forEach(function (el) {
+                el.classList.toggle('active', parseInt(el.dataset.idx) === target);
+            });
+        }
+
+
+        /* ── SPIN ── */
+        var spinning = false;
+
+        document.getElementById('btnSpin').addEventListener('click', function () {
+            if (spinning) return;
+            spin();
+        });
+
+        function spin() {
+            spinning = true;
+            document.getElementById('btnSpin').disabled = true;
+            document.getElementById('resultCard').classList.remove('visible');
+            stopTimer();
+            resetTimer();
+            announcer.textContent = I18N[currentLang].a11y_spin;
+
+            var n = TOPICS.length;
+            
+            // Random index, try avoiding immediate repeat if multiple elements
+            var finalIdx = Math.floor(Math.random() * n);
+            if(n > 1 && drawnHistory.length > 0 && finalIdx === drawnHistory[drawnHistory.length-1]) {
+                finalIdx = (finalIdx + 1) % n; // Just shift by 1 to avoid direct consecutive repeat
+            }
+
+            var startRep = Math.floor(REPS / 2); // start in middle rep
+            var startG = startRep * n;           // e.g. 3×n
+            var targetG = startG + 3 * n + finalIdx; // 3 full loops + landing
+
+            // Jump to start position silently
+            setY(yForGlobal(startG));
+            highlightGlobal(startG);
+            // Force reflow
+            drumTrack.getBoundingClientRect();
+
+            var duration = 2400;
+            var t0 = performance.now();
+            var y0 = yForGlobal(startG);
+            var y1 = yForGlobal(targetG);
+
+            function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+            function frame(now) {
+                var elapsed = now - t0;
+                var t = Math.min(elapsed / duration, 1);
+                var y = y0 + (y1 - y0) * easeOut(t);
+                var nearestG = Math.round((CENTER_PX - y) / ITEM_H);
+
+                setY(y);
+                highlightGlobal(nearestG);
+
+                if (t < 1) {
+                    requestAnimationFrame(frame);
+                } else {
+                    setY(y1);
+                    highlightGlobal(targetG);
+                    spinning = false;
+                    document.getElementById('btnSpin').disabled = false;
+                    
+                    drawnHistory.push(finalIdx);
+                    showResult(TOPICS[finalIdx]);
+                }
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        function showResult(topic) {
+            document.getElementById('resultTopic').textContent = topic;
+            var card = document.getElementById('resultCard');
+            card.classList.add('visible');
+            
+            // Annonce vocale
+            announcer.textContent = I18N[currentLang].a11y_drawn + topic;
+
+            setTimeout(function () {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Move focus purely for keyboard users logically, but without forcing screen reader off wheel?
+                // document.getElementById('btnStart').focus(); 
+            }, 400);
+        }
+
+        /* ── TIMER ── */
+        var remaining = timerDuration;
+        var timerInterval = null;
+        var running = false;
+
+        function fmt(s) {
+             // Math.abs to handle if goes negative for some reason
+            let val = Math.max(0, s);
+            return Math.floor(val / 60) + ':' + (val % 60 < 10 ? '0' : '') + (val % 60);
+        }
+
+        function updateTimerUI() {
+            document.getElementById('timerDisplay').textContent = fmt(remaining);
+            document.getElementById('timerBar').style.width = (remaining / timerDuration * 100) + '%';
+            var urgent = remaining <= 10 && remaining > 0;
+            document.getElementById('timerDisplay').classList.toggle('urgent', urgent);
+            document.getElementById('timerDisplay').classList.toggle('done', remaining === 0);
+            document.getElementById('timerBar').classList.toggle('urgent', urgent);
+        }
+
+        function startTimer() {
+            if (running || remaining === 0) return;
+            running = true;
+            document.getElementById('btnStart').textContent = I18N[currentLang].btn_pause;
+            timerInterval = setInterval(function () {
+                remaining--;
+                updateTimerUI();
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    running = false;
+                    document.getElementById('btnStart').textContent = I18N[currentLang].btn_start;
+                    document.getElementById('doneMsg').classList.add('visible');
+                    announcer.textContent = I18N[currentLang].done_msg;
+                    launchConfetti();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            running = false;
+            clearInterval(timerInterval);
+            document.getElementById('btnStart').textContent = I18N[currentLang].btn_resume;
+        }
+
+        function stopTimer() {
+            running = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            remaining = timerDuration;
+            document.getElementById('btnStart').textContent = I18N[currentLang].btn_start;
+            updateTimerUI();
+            document.getElementById('doneMsg').classList.remove('visible');
+        }
+
+        document.getElementById('btnStart').addEventListener('click', function () {
+            if (running) pauseTimer(); else startTimer();
+        });
+        document.getElementById('btnReset').addEventListener('click', function () {
+            resetTimer();
+        });
+
+        /* ── CONFETTI ── */
+        var canvas = document.getElementById('confetti-canvas');
+        var ctx = canvas.getContext('2d');
+        var particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function launchConfetti() {
+            particles = [];
+            var colors = ['#f5c842', '#ff6b35', '#4ade80', '#60a5fa', '#f472b6', '#a78bfa'];
+            for (var i = 0; i < 130; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width, y: -10,
+                    vx: (Math.random() - 0.5) * 6, vy: Math.random() * 3 + 2,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.18,
+                    life: 1
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(function (p) { return p.life > 0.02; });
+            particles.forEach(function (p) {
+                p.x += p.vx; p.y += p.vy; p.vy += 0.1;
+                p.angle += p.spin; p.life -= 0.011;
+                ctx.save();
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                ctx.restore();
+            });
+            if (particles.length) requestAnimationFrame(animateConfetti);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Init
+        loadTopics();
+        updateUI();
+        resetTimer();
+
+    </script>
+</body>
+
+</html>

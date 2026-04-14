@@ -1,0 +1,40 @@
+window.ROULETTE_DATA = {
+    fr: [
+        "Les ports maritimes", "Le soleil", "La cuisine italienne", "Les voyages en train",
+        "L'intelligence artificielle", "Les chats", "La photographie", "Les marchés de Noël",
+        "Le sport en salle", "Les volcans", "Les bibliothèques", "La lune", "Les sous-marins",
+        "Le chocolat", "Les rêves", "La montagne en hiver", "Les startups", "Les films d'animation",
+        "La plongée sous-marine", "Les journaux", "Le jazz", "Les drones", "La mode vintage",
+        "Les supermarchés", "Les aurores boréales", "Les gratte-ciels", "Le vélo",
+        "Les jardins japonais", "Les vidéos virales", "Les confiseries", "La pluie", "Le théâtre",
+        "Les pieuvres", "La boulangerie", "Les jeux de société", "Les feux d'artifice",
+        "Les chaussures", "La méditation", "Les robots", "Les mangas", "Les autoroutes",
+        "La mer du Nord", "Les hôpitaux", "Le camping", "Les tatouages", "Les aéroports",
+        "La mémoire", "La poésie", "Les forêts tropicales", "Les réseaux sociaux", "Les phares",
+        "Le vin", "Les musées", "L'espace", "Les salles de sport", "Les marchés paysans",
+        "Les insectes", "Les banques", "La peinture", "Les ascenseurs", "Le cirque",
+        "Les déserts", "Les puzzles", "Les radios FM", "La météo", "Les aquariums",
+        "Les BD", "Les ponts", "Le ski", "Les épiceries", "La photosynthèse",
+        "Les transports en commun", "Les épices", "La mode streetwear", "Les châteaux",
+        "Les jeux vidéo", "Les langues étrangères", "Les parfums", "La gastronomie"
+    ],
+    en: [
+        "Seaports", "The Sun", "Italian Cuisine", "Train Travel",
+        "Artificial Intelligence", "Cats", "Photography", "Christmas Markets",
+        "Indoor Sports", "Volcanoes", "Libraries", "The Moon", "Submarines",
+        "Chocolate", "Dreams", "Winter Mountains", "Startups", "Animated Movies",
+        "Scuba Diving", "Newspapers", "Jazz Music", "Drones", "Vintage Fashion",
+        "Supermarkets", "Northern Lights", "Skyscrapers", "Cycling",
+        "Japanese Gardens", "Viral Videos", "Confectionery", "Rain", "Theater",
+        "Octopuses", "Bakery", "Board Games", "Fireworks",
+        "Shoes", "Meditation", "Robots", "Manga", "Highways",
+        "The North Sea", "Hospitals", "Camping", "Tattoos", "Airports",
+        "Memory", "Poetry", "Tropical Forests", "Social Networks", "Lighthouses",
+        "Wine", "Museums", "Space", "Gyms", "Farmers Markets",
+        "Insects", "Banks", "Painting", "Elevators", "The Circus",
+        "Deserts", "Puzzles", "FM Radios", "Weather", "Aquariums",
+        "Comic Books", "Bridges", "Skiing", "Grocery Stores", "Photosynthesis",
+        "Public Transport", "Spices", "Streetwear Fashion", "Castles",
+        "Video Games", "Foreign Languages", "Perfumes", "Gastronomy"
+    ]
+};
