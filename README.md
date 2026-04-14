@@ -32,12 +32,28 @@ Roulette des Sujets est une application légère et intuitive pensée pour la pr
 Aucune installation n'est nécessaire. Le projet fonctionne en HTML, CSS et JavaScript natif.
 
 1. Téléchargez ou clonez le repository
-2. Ouvrez le fichier `roulette.html` dans votre navigateur
+2. Ouvrez le fichier `index.html` dans votre navigateur
 3. Vous pouvez aussi utiliser Live Server sur VS Code
+
+## Déploiement sur Vercel
+
+Le projet est pré-configuré pour être déployé sur [Vercel](https://vercel.com).
+
+1. Connectez votre compte GitHub à Vercel.
+2. Importez ce dépôt.
+3. Vercel détectera automatiquement la configuration et déploiera votre site.
+
+Vous pouvez également déployer via le CLI Vercel :
+```bash
+npm i -g vercel
+vercel
+```
 
 ## Structure
 
 ```text
-roulette.html   Interface principale, styles et logique de la roue
+index.html      Interface principale, styles et logique de la roue
 topics.js       Liste des sujets en français et en anglais
+vercel.json     Configuration pour le déploiement Vercel
 ```
+
